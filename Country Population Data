@@ -1,0 +1,26 @@
+/* Put your data in here and query it! */
+CREATE TABLE countries (name TEXT PRIMARY KEY, population INTEGER, population_change INTEGER, net_migrants INTEGER);
+
+INSERT INTO countries (name, population, population_change, net_migrants) VALUES ("USA", 330000000, 1937734, 954806);
+INSERT INTO countries (name, population, population_change, net_migrants) VALUES ("China", 1400000000, 5540090, -348399);
+INSERT INTO countries (name, population, population_change, net_migrants) VALUES ("India", 1300000000, 13586631, -532687);
+INSERT INTO countries (name, population, population_change, net_migrants) VALUES ("Mexico", 130000000, 1357224, -60000);
+INSERT INTO countries (name, population, population_change, net_migrants) VALUES ("Japan", 130000000, -383840, 71560);
+
+SELECT * FROM countries;
+SELECT * FROM countries WHERE population > 1000000000;
+SELECT * FROM countries WHERE population > 300000000 AND population_change < 1000000;
+SELECT * FROM countries WHERE population > 300000000 OR net_migrants < 50000;
+SELECT name, SUM(population) AS total_population FROM countries GROUP BY name;
+SELECT name, AVG(population) AS avg_population FROM countries GROUP BY name;
+SELECT name, MIN(population) AS min_population FROM countries GROUP BY name;
+SELECT name, SUM(population) AS total_population FROM countries GROUP BY name HAVING total_population > 500000000;
+SELECT name, population,
+CASE
+WHEN population > 1000000000 THEN "large population"
+WHEN population <= 1000000000 >= 500000000 THEN "medium population"
+WHEN population <= 500000000 >= 100000000 THEN "small population"
+ELSE "very small population"
+END "population_categories"
+FROM countries
+GROUP BY "population_categories";
