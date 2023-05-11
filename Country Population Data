@@ -18,8 +18,8 @@ SELECT name, SUM(population) AS total_population FROM countries GROUP BY name HA
 SELECT name, population,
 CASE
 WHEN population > 1000000000 THEN "large population"
-WHEN population <= 1000000000 >= 500000000 THEN "medium population"
-WHEN population <= 500000000 >= 100000000 THEN "small population"
+WHEN population <= 1000000000 AND population >= 500000000 THEN "medium population"
+WHEN population <= 500000000 AND population >= 100000000 THEN "small population"
 ELSE "very small population"
 END as "population_categories"
 FROM countries
