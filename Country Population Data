@@ -23,4 +23,4 @@ WHEN population <= 500000000 AND population >= 100000000 THEN "small population"
 ELSE "very small population"
 END as "population_categories"
 FROM countries
-GROUP BY "population_categories";
+GROUP BY population_categories;
