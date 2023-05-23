@@ -1,0 +1,48 @@
+#1. Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+SELECT firstname, lastname, customerid, country FROM chinook.customers WHERE country <> "USA" ORDER BY country asc;
+
+#2. Show only the Customers from Brazil.
+SELECT * FROM chinook.customers WHERE country = "Brazil" GROUP BY firstname;
+
+#3. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT customers.firstname, customers.lastname, invoices.invoiceid, invoices.billingcountry, invoices.invoicedate
+	FROM chinook.invoices invoices
+	LEFT JOIN chinook.customers customers
+	ON invoices.customersid = customers.customerid
+	WHERE invoices.billingcountry = "Brazil"
+	ORDER BY firstname asc;
+  
+#4. Show the Employees who are Sales Agents.
+SELECT * FROM chinook.employees WHERE title = "Sales Support Agent";
+
+#5. Find a unique/distinct list of billing countries from the Invoice table.
+SELECT distinct billingcountry FROM chinook.invoices ORDER BY billingcountry asc;
+
+#6. Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT employees.lastname, employees.firstname, invoices.invoiceid
+	FROM chinook.employees employees
+	JOIN chinook.customers customers
+	ON customers.supportrepid = employees.employeeid
+	JOIN chinook.invoices invoices
+	ON invoices.customerid = customers.customerid;
+
+#7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT employees.lastname, employees.firstname, customers.firstname, customers.lastname, customers.country, invoices.total
+	FROM chinook.employees employees
+	JOIN chinook.customers customers
+	ON customers.supportrepid = employees.employeeid
+	JOIN chinook.invoices invoices
+	ON invoices.customerid = customers.customerid;
+
+#8. How many Invoices were there in 2009?
+SELECT * FROM chinook.invoices WHERE invoicedate BETWEEN "2009-01-01" AND "2009-12-31";
+SELECT COUNT(*) FROM chinook.invoices WHERE invoicedate BETWEEN "2009-01-01" AND "2009-12-31";
+
+#9. What are the total sales for 2009?
+SELECT SUM(total) AS total_2009 FROM chinook.invoices WHERE invoicedate BETWEEN "2009-01-01" AND "2009-12-31";
+
+#10. Write a query that includes the purchased track name with each invoice line ID.
+SELECT tracks.name, invoice_items.invoicelineid
+	FROM chinook.invoice_items invoice_items
+	JOIN chinook.tracks tracks
+	ON invoice_items.trackid = tracks.trackid;
